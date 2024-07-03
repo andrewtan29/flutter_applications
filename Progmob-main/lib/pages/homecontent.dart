@@ -132,7 +132,7 @@ class _HomeContentState extends State<HomeContent> {
         children: [
           SizedBox(height: 20),
           const Text(
-            'Anggota',
+            'List Anggota',
             style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 20.0,
@@ -140,7 +140,10 @@ class _HomeContentState extends State<HomeContent> {
           ),
           const SizedBox(height: 20),
           Expanded(
-            child: ListView.builder(
+            child:anggotaList.isEmpty
+                ? Center(child: Text('Belum ada Anggota yang Terdaftar'))
+                :
+            ListView.builder(
               itemCount: anggotaList.length,
               itemBuilder: (context, index) {
                 final anggota = anggotaList[index];
@@ -177,7 +180,8 @@ class _HomeContentState extends State<HomeContent> {
         onPressed: () {
           _showAddEditDialog();
         },
-        child: Icon(Icons.add),
+        child: Icon(Icons.add), 
+        
       ),
     );
   }

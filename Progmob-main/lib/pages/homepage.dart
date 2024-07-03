@@ -1,3 +1,7 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
+
+
 import 'package:flutter/material.dart';
 import 'package:progmob_flutter/pages/userpage.dart';
 import 'package:progmob_flutter/pages/homecontent.dart';
@@ -29,9 +33,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Application',
-          style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.account_balance, color: Colors.white, size: 35,),
+          ],
         ),
         backgroundColor: Colors.blue[900],
         automaticallyImplyLeading: false,

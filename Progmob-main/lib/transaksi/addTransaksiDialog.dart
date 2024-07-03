@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 
 class AddTransaksiDialog extends StatefulWidget {
-  final Function() onTransaksiAdded;
+  final VoidCallback onTransaksiAdded;
 
   const AddTransaksiDialog({required this.onTransaksiAdded, Key? key})
       : super(key: key);
@@ -114,7 +114,6 @@ class _AddTransaksiDialogState extends State<AddTransaksiDialog> {
         'trx_id': selectedJenisTransaksi,
         'trx_nominal': _saldoController.text,
       };
-      print(newTransaksi);
 
       await _dio.post(
         'https://mobileapis.manpits.xyz/api/tabungan', // Ubah endpoint untuk menambahkan transaksi
@@ -135,13 +134,13 @@ class _AddTransaksiDialogState extends State<AddTransaksiDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Add Transaksi'),
+      title: Text('Add Transaction'),
       content: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             DropdownButtonFormField<String>(
               value: selectedAnggota,
-              hint: Text('Pilih Anggota'),
+              hint: Text('Select Member'),
               items: anggotaList.map<DropdownMenuItem<String>>((anggota) {
                 return DropdownMenuItem<String>(
                   value: anggota['id'].toString(),
@@ -156,7 +155,7 @@ class _AddTransaksiDialogState extends State<AddTransaksiDialog> {
             ),
             DropdownButtonFormField<String>(
               value: selectedJenisTransaksi,
-              hint: Text('Pilih Jenis Transaksi'),
+              hint: Text('Select Transaction Type'),
               items: jenisTransaksiList.map<DropdownMenuItem<String>>((jenis) {
                 return DropdownMenuItem<String>(
                   value: jenis['id'].toString(),
@@ -171,7 +170,7 @@ class _AddTransaksiDialogState extends State<AddTransaksiDialog> {
             ),
             TextField(
               controller: _saldoController,
-              decoration: InputDecoration(labelText: 'Isi Saldo'),
+              decoration: InputDecoration(labelText: 'Enter Amount'),
               keyboardType: TextInputType.number,
             ),
           ],

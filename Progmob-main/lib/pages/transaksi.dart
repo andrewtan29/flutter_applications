@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:progmob_flutter/transaksi/addTransaksiDialog.dart';
+import '../transaksi/addTransaksiDialog.dart';
 
 class TransaksiPage extends StatefulWidget {
-  const TransaksiPage({super.key});
+  const TransaksiPage({Key? key}) : super(key: key);
 
   @override
   _TransaksiPageState createState() => _TransaksiPageState();
@@ -70,7 +71,11 @@ class _TransaksiPageState extends State<TransaksiPage> {
     showDialog(
       context: context,
       builder: (context) {
-        return AddTransaksiDialog(onTransaksiAdded: fetchTransaksi);
+        return AddTransaksiDialog(
+          onTransaksiAdded: ()async{
+            await fetchTransaksi();
+            Navigator.pop(context);
+          });
       },
     );
   }
@@ -80,10 +85,10 @@ class _TransaksiPageState extends State<TransaksiPage> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Container(
+          Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'Transaction',
+              'List Transaksi',
               style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
@@ -93,16 +98,21 @@ class _TransaksiPageState extends State<TransaksiPage> {
           ),
           Expanded(
             child: transaksiList.isEmpty
-                ? Center(child: Text('No transactions found'))
+                ? Center(child: Text('Belum ada Transaksi yang dilakukan'))
                 : ListView.builder(
                     itemCount: transaksiList.length,
                     itemBuilder: (context, index) {
                       final transaksi = transaksiList[index];
                       return ListTile(
-                        title: Text('Transaksi ID: ${transaksi['id']}'),
-                        subtitle: Text('Tanggal: ${transaksi['trx_tanggal']}'),
-                        trailing: Text('Nominal: ${transaksi['trx_nominal']}'),
-                      );
+                        title: Text('Transaction ID: ${transaksi['id']}'),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Transaction Date: ${transaksi['trx_tanggal']}'),
+                            Text('Nominal: ${transaksi['trx_nominal']}'),
+                          ],
+                        ),
+                        );
                     },
                   ),
           ),
